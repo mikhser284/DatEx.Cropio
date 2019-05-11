@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7DF86009-4F6E-45A8-B876-16152524BE46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DatEx.Cropio.BaseAPI</RootNamespace>
+    <AssemblyName>DatEx.Cropio.BaseAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CropioBaseAPI.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_UserRolePermissionSubjectType.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_AccessLevel.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_AccessFor.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_AgriWorkPlanStatus.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_AgroOperationStatus.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_AlertPriority.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_MeasureUnitOfChemical.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_MeasureUnitOfSeed.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_StandardNameOfWorkTypeGroup.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_StatusOfAlert.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_MeasureUnitOfFertilizer.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_CropStandardName.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_StatusOfMachineTask.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_SybtypeOfMachine.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfApplicable.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfChemical.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfFertilizer.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfFuel.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfImplement.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_TypeOfMachine.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_StandardNameOfWorkType.cs" />
+    <Compile Include="CropioDataModel\Interfaces\ICropioRegularObject.cs" />
+    <Compile Include="CropioDataModel\Objects%28Aux%29\TimeInverval.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_AdditionalObject.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_AgriWorkPlan.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_AgroOperation.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Alert.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_AlertType.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_ApplicationMixItem.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_AutomaticAlert.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Chemical.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Company.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Counterparty.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Crop.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Document.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Fertilizer.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Field.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_FieldGroup.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_FieldScoutReport.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_FieldShape.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_GpsLogger.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_GroupFolder.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_HarvestWeighing.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_HistoricalValue.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_History_InventoryItem.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_History_Item.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_History_ProductivityEstimate.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_History_WeatherItem.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Implement.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_LandDocument.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_LandParcel.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Machine.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_MachineGroup.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_MachineRegion.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_MachineTask.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_MaintenanceRecord.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_FieldScout_ReportThreat.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_FieldShape_LandParcel.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_GpsLogger.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_Implement_Region.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_LandDocument_LandParcel.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_MachineRegion.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_MachineTask_AgroOperation.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_MachineTask_Field.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Map_WorkRecord_MachineRegion.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Mix_AgriWorkPlan_Application.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Mix_Application.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Note.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Photo.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_PlantThreat.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_ProductivityEstimate.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_RegularObjectGpsLogger.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_SatelliteImage.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Security.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Seed.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_User.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_UserRole.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_UserRoleAssignment.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_UserRolePermission.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_Version.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_WorkRecord.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_WorkType.cs" />
+    <Compile Include="CropioDataModel\Objects\CO_WorkTypeGroup.cs" />
+    <Compile Include="CropioDataModel\Objects%28Aux%29\TimestamedValue.cs" />
+    <Compile Include="CropioResponses\AuthorizationResponse.cs" />
+    <Compile Include="CropioResponses\CropioAuthorizationException.cs" />
+    <Compile Include="CropioResponses\CropioServerResponse.cs" />
+    <Compile Include="CropioDataModel\CropioDataModel.cs" />
+    <Compile Include="CropioResponses\MassResponse.cs" />
+    <Compile Include="CropioResponses\MassResponse_ChangedObjects.cs" />
+    <Compile Include="CropioResponses\MassResponse_Changes.cs" />
+    <Compile Include="CropioResponses\Response.cs" />
+    <Compile Include="Helpers\LinqHelper.cs" />
+    <Compile Include="Helpers\HttpClientHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,22 @@
+{
+  "ServerConnections": [
+	{
+      "ServerType": "Development",
+      "ServerBaseAddress": "YourCropioDevelopmentServerAddress",
+      "AgentLogin": "YourLogin",
+      "AgentPassword": "YourPassword"
+    },
+    {
+      "ServerType": "Staging",
+      "ServerBaseAddress": "YourCropioStaggingServerAddress",
+      "AgentLogin": "YourLogin",
+      "AgentPassword": "YourPassword"
+    },
+    {
+      "ServerType": "Productive",
+      "ServerBaseAddress": "YourCropioProductiveServerAddress",
+      "AgentLogin": "YourLogin",
+      "AgentPassword": "YourPassword"
+    }
+  ]
+}

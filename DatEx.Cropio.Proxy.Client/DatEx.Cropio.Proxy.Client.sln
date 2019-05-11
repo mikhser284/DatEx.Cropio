@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEx.Cropio.Proxy.Client", "DatEx.Cropio.Proxy.Client\DatEx.Cropio.Proxy.Client.csproj", "{D2486201-5137-4CF6-9054-DFCEA9258711}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2486201-5137-4CF6-9054-DFCEA9258711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2486201-5137-4CF6-9054-DFCEA9258711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2486201-5137-4CF6-9054-DFCEA9258711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2486201-5137-4CF6-9054-DFCEA9258711}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9760B61A-38A4-4EF1-9561-DCAC5E5BF0D3}
+	EndGlobalSection
+EndGlobal

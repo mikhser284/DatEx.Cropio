@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEx.Cropio.BaseAPI", "DatEx.Cropio.BaseAPI\DatEx.Cropio.BaseAPI.csproj", "{7DF86009-4F6E-45A8-B876-16152524BE46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatEx.Cropio.Test", "DatEx.Cropio.Test", "{E2EDDBB2-CE3C-4680-A70C-0E870784BC05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEx.Cropio.CUI", "DatEx.Cropio.CUI\DatEx.Cropio.CUI.csproj", "{C7930FF9-7498-459C-AF39-92EC224D7035}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatEx.Cropio.Proxy", "DatEx.Cropio.Proxy\DatEx.Cropio.Proxy.csproj", "{283BB2F2-D820-4567-9E4D-E53B749873DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEx.Cropio.Config", "DatEx.Cropio.Config\DatEx.Cropio.Config.csproj", "{62046D42-3B85-4AD0-ADE0-C26D057BBB41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DF86009-4F6E-45A8-B876-16152524BE46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DF86009-4F6E-45A8-B876-16152524BE46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DF86009-4F6E-45A8-B876-16152524BE46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DF86009-4F6E-45A8-B876-16152524BE46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7930FF9-7498-459C-AF39-92EC224D7035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7930FF9-7498-459C-AF39-92EC224D7035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7930FF9-7498-459C-AF39-92EC224D7035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7930FF9-7498-459C-AF39-92EC224D7035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{283BB2F2-D820-4567-9E4D-E53B749873DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283BB2F2-D820-4567-9E4D-E53B749873DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283BB2F2-D820-4567-9E4D-E53B749873DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283BB2F2-D820-4567-9E4D-E53B749873DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62046D42-3B85-4AD0-ADE0-C26D057BBB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62046D42-3B85-4AD0-ADE0-C26D057BBB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62046D42-3B85-4AD0-ADE0-C26D057BBB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62046D42-3B85-4AD0-ADE0-C26D057BBB41}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7930FF9-7498-459C-AF39-92EC224D7035} = {E2EDDBB2-CE3C-4680-A70C-0E870784BC05}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86B90C36-D8C5-40B1-96F2-B5059543E0BA}
+	EndGlobalSection
+EndGlobal

@@ -18,31 +18,27 @@ namespace DatEx.Cropio.CUI
 
         static void Main(String[] args)
         {
-            CropioApi cropioClient = GetCropioClient();
-            Console.WriteLine("Получение культур.");
+            CropioApi cropio = GetCropioClient();
             
-            //foreach(var ids in cropio.GetObjectsIds<CO_Crop>().Data.Paginate(200))
-            //{
-            //    foreach(var id in ids)
-            //    {
-                    //var obj = cropio.GetObject<CO_Crop>(id);
-            //        CE_CropStandardName e = obj.Data.StandardName;
-                    
-            //    }
-            //}
-            //List<CO_Crop> crops = cropio.GetObjects<CO_Crop>(cropio.GetObjectsIds<CO_Crop>().Data).Data;
+            foreach(var ids in cropio.GetObjectsIds<CO_Alert>().Data.Paginate(300))
+            {
+                foreach(var obj in cropio.GetObjects<CO_Alert>(ids).Data)
+                {
+                    Console.WriteLine(obj.GetTextView(1));
+                }
+            }
+
+
             //Task03_CreatingMultipleAlertsOutsideCropio();
-            
-            CropioTest.ShowFields(cropioClient);
-            //ShowFieldsAndActualAlerts();
         }
 
         public static void Task03_CreatingMultipleAlertsOutsideCropio()
         {
             CropioApi cropio = GetCropioClient();
-            //cropio.ShowUsersPermissions();
-            //cropio.ShowAlertTypes();
-            //cropio.CreateAllerts();
+            cropio.ShowUsersPermissions();
+            cropio.ShowAlertTypes();
+            cropio.CreateAllerts();
+            return;
             HashSet<Int32> fields = new HashSet<int> { 208 };
             //var fields = cropio.GetObjects<CO_Field>(new List<Int32> { 208, 160, 170 });
             //foreach(var f in fields.Data)
@@ -211,7 +207,7 @@ namespace DatEx.Cropio.CUI
                 CreatedAt = DateTime.Now,
                 EventStartTime = DateTime.Now,
                 Id_AlertType = 6,
-                AlertableObjectType = "Field",
+                AlertableObjectType = CE_AlertableObjectType.Field,
                 Id_AlertableObject = 208, // КАФ, VPL01
                 Id_CreatedByUser = 16153, // Кирильчук Павел Александрович
                 Id_ResponsiblePerson = 16153 // Кирильчук Павел Александрович
@@ -223,7 +219,7 @@ namespace DatEx.Cropio.CUI
                 CreatedAt = DateTime.Now,
                 EventStartTime = DateTime.Now,
                 Id_AlertType = 6,
-                AlertableObjectType = "Field",
+                AlertableObjectType = CE_AlertableObjectType.Field,
                 Id_AlertableObject = 160, // КАХ, VBK01
                 Id_CreatedByUser = 16153, // Кирильчук Павел Александрович
                 Id_ResponsiblePerson = 16153 // Кирильчук Павел Александрович
@@ -235,7 +231,7 @@ namespace DatEx.Cropio.CUI
                 CreatedAt = DateTime.Now,
                 EventStartTime = DateTime.Now,
                 Id_AlertType = 6,
-                AlertableObjectType = "Field",
+                AlertableObjectType = CE_AlertableObjectType.Field,
                 Id_AlertableObject = 170, // КАХ, VCH01
                 Id_CreatedByUser = 16153, // Кирильчук Павел Александрович
                 Id_ResponsiblePerson = 16153 // Кирильчук Павел Александрович
@@ -271,7 +267,7 @@ namespace DatEx.Cropio.CUI
             CO_Alert alert = new CO_Alert
             {
                 Status = CE_StatusOfAllert.Open,
-                AlertableObjectType = "Field",
+                AlertableObjectType = CE_AlertableObjectType.Field,
                 Description = "[TEST] Тревога создана программным образом.",
                 CreatedAt = DateTime.Now,
                 EventStartTime = DateTime.Now,
@@ -409,14 +405,13 @@ namespace DatEx.Cropio.CUI
             Console.WriteLine("Получение информации завершено\n\n.");
 
             const String filePath = @"..\..\..\DatEx.Cropio.Log\Output.txt";
-            const String typeName = "Field";
 
             foreach (CO_Field f in fields)
             {
                 CO_FieldGroup fg = fieldGroups.FirstOrDefault(x => x.Id == f.Id_FieldGroup);
                 CO_History_Item hi = historyItems.FirstOrDefault(x => x.Id_Field == f.Id && x.Year == DateTime.Now.Year);
-                List<CO_History_InventoryItem> ih = inventoryHistoryItems.Where(x => x.HistoryableType == typeName && x.Id_Historyable == f.Id).ToList();
-                List<CO_Alert> al = alerts.Where(x => x.AlertableObjectType == typeName && x.Id_AlertableObject == f.Id).ToList();
+                List<CO_History_InventoryItem> ih = inventoryHistoryItems.Where(x => x.HistoryableType == "field" && x.Id_Historyable == f.Id).ToList();
+                List<CO_Alert> al = alerts.Where(x => x.AlertableObjectType == CE_AlertableObjectType.Field && x.Id_AlertableObject == f.Id).ToList();
 
 
                 String cropName = String.Empty;

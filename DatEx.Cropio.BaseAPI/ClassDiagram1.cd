@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="DatEx.Cropio.BaseAPI.CO_User" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>kAADAAAECSIgCBBkACQAACAAQAAAAEBCAQAACAAABAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_User.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_UserRoleAssignment">
+    <Position X="3.75" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAABCAAEACAAACAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_UserRoleAssignment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_UserRole">
+    <Position X="3.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgCAAEACAAACQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_UserRole.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_UserRolePermission">
+    <Position X="3.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABQCAAAAAAABCAAEACAAACAAAAAAAAAAAAAQAAAAgAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_UserRolePermission.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_FieldGroup">
+    <Position X="7" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAQAgCAAEACAAACQEgAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_FieldGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_Field">
+    <Position X="6.75" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAECAgAAAQAgCAAEACAAECQkgAAkAAAAEAAAAAQEAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_Field.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_History_InventoryItem">
+    <Position X="15.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgCAIEACAAACABAABAAAABAAAQAIAAEAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_History_InventoryItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_History_Item">
+    <Position X="13" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAACAAQABQAkCAAFECAAACQAAAAAAIAAgACAAAAAAAE=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_History_Item.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_Crop">
+    <Position X="10.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAQAgCAAEACIAACQAAAAAAIAAAAAAgAAAAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_Crop.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_Alert">
+    <Position X="10" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAEAAAgCAAEACAIECAAAQgAAAAABAAAAKAAAAA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_Alert.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DatEx.Cropio.BaseAPI.CO_AlertType">
+    <Position X="13" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAgCAAEACAAQCQAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>CropioDataModel\Objects\CO_AlertType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

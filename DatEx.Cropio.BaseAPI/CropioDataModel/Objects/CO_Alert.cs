@@ -42,8 +42,9 @@ namespace DatEx.Cropio.BaseAPI
         
         /// <summary> type of alertable object </summary>
         /// <remarks> In ELMA: — </remarks>
+        [JsonConverter(typeof(JsonConverter_AlertableObjectType))]
         [JsonProperty("alertable_type")]
-        public String AlertableObjectType { get; set; }
+        public CE_AlertableObjectType AlertableObjectType { get; set; }
 
         /// <summary> the time of the beginning of the event that led to the occurrence of an alarm </summary>
         /// <remarks> In ELMA: DateTime EventStartTime (Время начала события) </remarks>

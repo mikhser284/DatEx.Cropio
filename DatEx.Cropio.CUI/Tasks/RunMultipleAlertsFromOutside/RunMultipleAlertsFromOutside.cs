@@ -12,7 +12,7 @@ namespace DatEx.Cropio.CUI
 {
     public static class RunMultipleAlertsFromOutside
     {
-        public const String DirPath_LocalDataStorage = @"..\..\..\!Data";
+        public const String DirPath_LocalDataStorage = @"..\..\..\..\!Data\Cropio";
 
         public static void SyncroniseData(CropioApi cropio)
         {

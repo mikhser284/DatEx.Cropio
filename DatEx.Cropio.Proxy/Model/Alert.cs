@@ -13,7 +13,7 @@ namespace DatEx.Cropio.Proxy.Model
         public DateTime? UpdatedAt { get; set; }
         public Int32 Id_AlertType { get; set; }
         public Int32 Id_AlertableObject { get; set; }
-        public String AlertableObjectType { get; set; }
+        public CE_AlertableObjectType AlertableObjectType { get; set; }
         public DateTime EventStartTime { get; set; }
         public CE_StatusOfAllert Status { get; set; }
         public String Description { get; set; }

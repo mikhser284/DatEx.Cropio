@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CropioBaseAPI.cs" />
     <Compile Include="CropioDataModel\Enums\CE_AlertableObjectType.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_HistoryableType.cs" />
     <Compile Include="CropioDataModel\Enums\CE_UserRolePermissionSubjectType.cs" />
     <Compile Include="CropioDataModel\Enums\CE_AccessLevel.cs" />
     <Compile Include="CropioDataModel\Enums\CE_AccessFor.cs" />

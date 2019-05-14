@@ -35,13 +35,13 @@ namespace DatEx.Cropio.Proxy
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<DbContextCropioProxy>(options => options.UseSqlServer("Data Source=ELMATEST2;Initial Catalog=ProxyDb.Cropio;Integrated Security=True"));
             services.AddOData();
-            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BackgroundTaskService>();
+            //services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BackgroundTaskService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(),"logger.txt"));
-            var logger = loggerFactory.CreateLogger("FileLogger");
+            //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(),"logger.txt"));
+            //var logger = loggerFactory.CreateLogger("FileLogger");
             if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

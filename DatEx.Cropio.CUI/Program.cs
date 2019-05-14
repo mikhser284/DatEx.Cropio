@@ -19,15 +19,22 @@ namespace DatEx.Cropio.CUI
         static void Main(String[] args)
         {
             CropioApi cropio = GetCropioClient();
+            RunMultipleAlertsFromOutside.SyncroniseData(cropio);
+            return;
+
+            CropioTest.ShowFields(cropio);
+
+            //HashSet<String> enumValues = new HashSet<string>();
             
-            foreach(var ids in cropio.GetObjectsIds<CO_Alert>().Data.Paginate(300))
+            foreach(var ids in cropio.GetObjectsIds<CO_History_InventoryItem>().Data.Paginate(300))
             {
-                foreach(var obj in cropio.GetObjects<CO_Alert>(ids).Data)
+                foreach(var obj in cropio.GetObjects<CO_History_InventoryItem>(ids).Data)
                 {
                     Console.WriteLine(obj.GetTextView(1));
+                    //enumValues.Add(obj.HistoryableType);
                 }
             }
-
+            //foreach(var item in enumValues) Console.WriteLine(item);
 
             //Task03_CreatingMultipleAlertsOutsideCropio();
         }
@@ -35,6 +42,8 @@ namespace DatEx.Cropio.CUI
         public static void Task03_CreatingMultipleAlertsOutsideCropio()
         {
             CropioApi cropio = GetCropioClient();
+            CropioTest.ShowFields(cropio);
+
             cropio.ShowUsersPermissions();
             cropio.ShowAlertTypes();
             cropio.CreateAllerts();
@@ -243,23 +252,6 @@ namespace DatEx.Cropio.CUI
         }
     }
 
-    public static class Ext_Linq
-    {
-        public static Dictionary<Int32, List<T>> ToDictionaryList<T>(this ICollection<T> collection, Func<T, Int32> keySelector)
-        {
-            Dictionary<Int32, List<T>> dict = new Dictionary<int, List<T>>();
-            if(collection == null) return dict;
-            foreach(T item in collection)
-            {
-                Int32 key = keySelector(item);
-                if(dict.ContainsKey(key)) dict[key].Add(item);
-                else dict.Add(key, new List<T>() { item });
-            }
-            return dict;
-        }
-    }
-
-
     public static class CropioTest
     {
         public static void Create(this CropioApi cropio)
@@ -361,7 +353,7 @@ namespace DatEx.Cropio.CUI
         {
             Console.WriteLine("Получение идентификаторов для для таблицы CO_History_InventoryItem");
             IEnumerable<IEnumerable<Int32>> ids = cropio.GetObjectsIds<CO_History_InventoryItem>().Data.Paginate(500);
-            HashSet<String> historyableTypes = new HashSet<String>();
+            HashSet<CE_HistoryableType> historyableTypes = new HashSet<CE_HistoryableType>();
             Int32 itemNo = 0;
 
             foreach (IEnumerable<Int32> page in ids)
@@ -410,7 +402,7 @@ namespace DatEx.Cropio.CUI
             {
                 CO_FieldGroup fg = fieldGroups.FirstOrDefault(x => x.Id == f.Id_FieldGroup);
                 CO_History_Item hi = historyItems.FirstOrDefault(x => x.Id_Field == f.Id && x.Year == DateTime.Now.Year);
-                List<CO_History_InventoryItem> ih = inventoryHistoryItems.Where(x => x.HistoryableType == "field" && x.Id_Historyable == f.Id).ToList();
+                List<CO_History_InventoryItem> ih = inventoryHistoryItems.Where(x => x.HistoryableType == CE_HistoryableType.Field && x.Id_Historyable == f.Id).ToList();
                 List<CO_Alert> al = alerts.Where(x => x.AlertableObjectType == CE_AlertableObjectType.Field && x.Id_AlertableObject == f.Id).ToList();
 
 
@@ -449,7 +441,7 @@ namespace DatEx.Cropio.CUI
                 foreach (CO_History_InventoryItem i in ih)
                 {
                     sb
-                        .Append("\n    # ─────────────────       ").Append(itemNo++)
+                        .Append("\n    ♦♦♦ ─────────────────       ").Append(itemNo++)
                         .Append("\n    ID:                       ").Append(i.Id)
                         .Append("\n    CreatedAt:                ").Append(i.CreatedAt)
                         .Append("\n    UpdatedAt:                ").Append(i.UpdatedAt)
@@ -500,7 +492,7 @@ namespace DatEx.Cropio.CUI
                 String result = sb.ToString();
                 File.AppendAllText(filePath, result);
                 Console.WriteLine(result);
-                //Console.ReadKey();
+                Console.ReadKey();
             }
         }
 

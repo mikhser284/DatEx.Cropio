@@ -53,7 +53,8 @@ namespace DatEx.Cropio.BaseAPI
         /// <summary> avatar </summary>
         /// <remarks> In ELMA: — </remarks>
         [JsonProperty("avatar")]
-        [JsonConverter(typeof(JsonAvatarConverter))]
+        //[JsonConverter(typeof(JsonAvatarConverter))]
+        [JsonIgnore]
         public Avatar Avatar { get; set; }
 
         /// <summary> position </summary>

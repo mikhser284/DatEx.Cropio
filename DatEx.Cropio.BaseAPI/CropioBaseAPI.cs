@@ -25,6 +25,7 @@ namespace DatEx.Cropio.BaseAPI
         /// <summary> Получить разницу во времени с сервером Cropio </summary>
         protected TimeSpan _GetServerDeltaTime(String userApiToken)
         {
+            if(String.IsNullOrEmpty(userApiToken)) throw new CropioAuthorizationException();
             DateTime time = DateTime.Now;
             String requestAddress = String.Format(@"{0}/changes_ids?from_time={1}", CropioDataModel.Name<CO_AlertType>(), time);
             TimeSpan timeDelta;
@@ -33,7 +34,8 @@ namespace DatEx.Cropio.BaseAPI
                 using(HttpResponseMessage response = httpClient.GetAsync(requestAddress).Result)
                 {
                     String responseData = response.Content.ReadAsStringAsync().Result.RemoveBackSlashFromJson();
-                    timeDelta = time - (JsonConvert.DeserializeObject<MassResponse_Changes>(responseData)).Meta.Request.FromTime;
+                    DateTime time2 =  (JsonConvert.DeserializeObject<MassResponse_Changes>(responseData)).Meta.Request.FromTime;
+                    timeDelta = time2 - time;
                 }
             }
             return timeDelta;

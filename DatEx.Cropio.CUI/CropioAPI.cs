@@ -22,8 +22,15 @@ namespace DatEx.Cropio.CUI
         public TimeSpan CropioServerTimeDelta { get { return _cropioServerTimeDelta ?? CropioServerTimeDelta_Update(); } }
         public TimeSpan CropioServerTimeDelta_Update()
         {
-            _cropioServerTimeDelta = _GetServerDeltaTime(UserApiToken);
-            return (TimeSpan)_cropioServerTimeDelta;
+            try
+            {
+                return _GetServerDeltaTime(UserApiToken);
+            }
+            catch(CropioAuthorizationException)
+            {
+                UserApiToken_Update();
+                return _GetServerDeltaTime(UserApiToken);
+            }
         }
 
         public CropioApi(String baseAddress, String login, String password) : base(baseAddress)
@@ -84,16 +91,17 @@ namespace DatEx.Cropio.CUI
             }              
         }
 
-        public MassResponse_Changes GetChangedObjectsIds<T>(DateTime fromTime) where T : ICropioObject
+        public MassResponse_Changes GetChangedObjectsIds<T>(DateTime? fromTime = null) where T : ICropioObject
         {
+            DateTime time = fromTime ?? new DateTime();
             try
             {
-                return _GetChangedObjectsIds<T>(UserApiToken, fromTime, CropioServerTimeDelta);
+                return _GetChangedObjectsIds<T>(UserApiToken, time, CropioServerTimeDelta);
             }
             catch(CropioAuthorizationException)
             {
                 UserApiToken_Update();
-                return _GetChangedObjectsIds<T>(UserApiToken, fromTime, CropioServerTimeDelta);
+                return _GetChangedObjectsIds<T>(UserApiToken, time, CropioServerTimeDelta);
             }            
         }
 

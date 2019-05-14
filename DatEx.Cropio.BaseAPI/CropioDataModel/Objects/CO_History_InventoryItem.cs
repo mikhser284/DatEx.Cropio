@@ -37,10 +37,11 @@ namespace DatEx.Cropio.BaseAPI
         [JsonProperty("historyable_id")]
         public Int32 Id_Historyable { get; set; }
         
+        [JsonConverter(typeof(JsonConverter_HistoryableType))]
         /// <summary> type of record: 'Machine', 'Implement', 'Field' </summary>
         /// <remarks> In ELMA: — </remarks>
         [JsonProperty("historyable_type")]
-        public String HistoryableType { get; set; }
+        public CE_HistoryableType HistoryableType { get; set; }
 
         /// <summary> date when record comes into effect </summary>
         /// <remarks> In ELMA: DateTime RecordComesIntoEffectAt (Время когда запись вступает в силу) </remarks>

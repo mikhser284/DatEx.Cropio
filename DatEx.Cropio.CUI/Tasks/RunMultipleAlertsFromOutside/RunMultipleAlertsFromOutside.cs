@@ -13,36 +13,31 @@ namespace DatEx.Cropio.CUI
     public static class RunMultipleAlertsFromOutside
     {
         public const String DirPath_LocalDataStorage = @"..\..\..\..\!Data\Cropio";
-        private static readonly Dictionary<String, Guid> User_ExternalId = new Dictionary<string, Guid>
-        {
-            {"Agent.Elma-Cropio", new Guid("A0E9C33A-21F7-43BF-8157-53FFF33BF856")}
-        };
-
         public static void Main(CropioApi cropio)
         {
-            Console.WriteLine(cropio.CropioServerTimeDelta);
-            Console.WriteLine(cropio.GetObject<CO_User>(33481).Data.GetTextView(0));
+            cropio.Update();            
             SyncroniseData(cropio);
-            GetUsersWithExternalId(cropio);
-        }
-
-        public static List<CO_Field> GetFieldsAvailableForUser(CropioApi cropio, Guid userExternalId)
-        {
-            List<CO_Field> fields = new List<CO_Field>();
-            
-            return fields;
+            CO_User user = GetUsersWithExternalId(cropio).Where(x => x.Id == 25025).FirstOrDefault();
+            if(user == null)
+            {
+                Console.WriteLine("Пользователь не найден");
+                return;
+            }
+            List<CO_UserRoleAssignment> rolesAssignment = LoadDataFromJsonFile<CO_UserRoleAssignment>().Where(x => x.Id_User == user.Id).ToList();
+            List<CO_UserRole> userRoles = LoadDataFromJsonFile<CO_UserRole>().Intersect(rolesAssignment, (a, b) => a.Id == b.Id_UserRole).ToList();
+            List<CO_UserRolePermission> userRolePermissions = LoadDataFromJsonFile<CO_UserRolePermission>().Where(x => x.SubjectType == CE_UserRolePermissionSubjectType.FieldGroup && (x.AccessLevel != CE_AccessLevel.NoAccess))
+                .Intersect(userRoles, (a, b) => a.Id_UserRole == b.Id).ToList();
+            List<CO_FieldGroup> fieldGroups = LoadDataFromJsonFile<CO_FieldGroup>().Intersect(userRolePermissions, (a, b) => a.Id == b.Id_Subject).ToList();
+            List<CO_Field> fields = LoadDataFromJsonFile<CO_Field>().Intersect(fieldGroups, (a, b) => a.Id_FieldGroup == b.Id).ToList();
+            var history_InventoryItems = LoadDataFromJsonFile<CO_History_InventoryItem>()
+                .Intersect(fields, (a, b) => a.Id_Historyable == b.Id && a.HistoryableType == CE_HistoryableType.Field)
+                .GroupBy(x => x.Id_Historyable);
         }
 
         public static List<CO_User> GetUsersWithExternalId(CropioApi cropio)
         {
             List<CO_User> users = LoadDataFromJsonFile<CO_User>();
             users = users.Where(x => !String.IsNullOrEmpty(x.Id_External)).ToList();
-
-            foreach (CO_User user in users)
-            {
-                Console.WriteLine(user.GetTextView(0));
-            }
-
             return users;
         }
 
@@ -50,9 +45,10 @@ namespace DatEx.Cropio.CUI
         {
             Console.WriteLine("CO_User");
             SyncDataTable<CO_User>(cropio);
-            return;
             Console.WriteLine("CO_UserRoleAssignment");
             SyncDataTable<CO_UserRoleAssignment>(cropio);
+            Console.WriteLine("CO_UserRolePermission");
+            SyncDataTable<CO_UserRole>(cropio);
             Console.WriteLine("CO_UserRolePermission");
             SyncDataTable<CO_UserRolePermission>(cropio);
             Console.WriteLine("CO_FieldGroup");
@@ -75,7 +71,7 @@ namespace DatEx.Cropio.CUI
                 updatedData.AddRange(cropio.GetObjects<T>(ids).Data);
             data = data.Except(updatedData, (a, b) => a.Id == b.Id).ToList();
             data.AddRange(updatedData);
-            data = data.OrderByDescending(x => x.CreatedAt).ToList();
+            data = data.OrderByDescending(x => x.UpdatedAt).ToList();
             data.SaveDataToJsonFile();
         }
 

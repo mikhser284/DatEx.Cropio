@@ -20,23 +20,6 @@ namespace DatEx.Cropio.CUI
         {
             CropioApi cropio = GetCropioClient();
             RunMultipleAlertsFromOutside.Main(cropio);
-            return;
-
-            CropioTest.ShowFields(cropio);
-
-            //HashSet<String> enumValues = new HashSet<string>();
-            
-            foreach(var ids in cropio.GetObjectsIds<CO_History_InventoryItem>().Data.Paginate(300))
-            {
-                foreach(var obj in cropio.GetObjects<CO_History_InventoryItem>(ids).Data)
-                {
-                    Console.WriteLine(obj.GetTextView(1));
-                    //enumValues.Add(obj.HistoryableType);
-                }
-            }
-            //foreach(var item in enumValues) Console.WriteLine(item);
-
-            //Task03_CreatingMultipleAlertsOutsideCropio();
         }
 
         public static void Task03_CreatingMultipleAlertsOutsideCropio()

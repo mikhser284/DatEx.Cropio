@@ -233,7 +233,9 @@ namespace DatEx.Cropio.BaseAPI
         /// <remarks> Параметр cropioServerTimeDelta можно получить используя функцию GetServerDeltaTime </remarks>
         protected MassResponse_Changes _GetChangedObjectsIds<T>(String userApiToken, DateTime fromTime, TimeSpan cropioServerTimeDelta) where T : ICropioObject
         {
-            DateTime timeFrom = fromTime - cropioServerTimeDelta;
+            DateTime timeFrom;
+            try { timeFrom = fromTime - cropioServerTimeDelta; }
+            catch(Exception ex) { timeFrom = new DateTime(); }
             String requestAddress = String.Format(@"{0}/changes_ids?from_time={1}", CropioDataModel.Name<T>(), timeFrom);            
             MassResponse_Changes identifiersSet;
             using(HttpClient httpClient = HttpClientHelper.ConstructHttpClient(userApiToken, BaseAddress))

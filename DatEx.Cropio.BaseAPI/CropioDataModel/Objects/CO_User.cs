@@ -141,7 +141,7 @@ namespace DatEx.Cropio.BaseAPI
                 .Append(i).Append("Email:           ").Append(Email)
                 .Append(i).Append("Password:        ").Append(Password)
                 .Append(i).Append("MobilePhone:     ").Append(MobilePhone)
-                .Append(i).Append("Avatar:          ").Append(Avatar.ToString(indentLevel + 1))
+                .Append(i).Append("Avatar:          ").Append(Avatar?.ToString(indentLevel + 1))
                 .Append(i).Append("Position:        ").Append(Position)
                 .Append(i).Append("Language:        ").Append(Language)
                 .Append(i).Append("TimeZone:        ").Append(TimeZone)
@@ -155,7 +155,7 @@ namespace DatEx.Cropio.BaseAPI
                 .Append(i).Append("LastSignInAt:    ").Append(CropioLastSignInAt)
                 .Append(i).Append("CurrentSignInAt: ").Append(CropioCurrentSignInAt)
                 .Append(i).Append("AuthMethod:      ").Append(AuthMethod)
-                .Append(i).Append("UnitsTable:      ").Append(UnitsTable.ToString(indentLevel + 1));
+                .Append(i).Append("UnitsTable:      ").Append(UnitsTable?.ToString(indentLevel + 1));
             return sb.ToString();
         }
 

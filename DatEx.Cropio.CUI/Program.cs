@@ -19,7 +19,7 @@ namespace DatEx.Cropio.CUI
         static void Main(String[] args)
         {
             CropioApi cropio = GetCropioClient();
-            RunMultipleAlertsFromOutside.SyncroniseData(cropio);
+            RunMultipleAlertsFromOutside.Main(cropio);
             return;
 
             CropioTest.ShowFields(cropio);

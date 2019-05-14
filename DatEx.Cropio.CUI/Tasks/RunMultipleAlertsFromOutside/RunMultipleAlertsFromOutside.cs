@@ -52,7 +52,6 @@ namespace DatEx.Cropio.CUI
             if(!File.Exists(filePath_StoredObjs)) File.Create(filePath_StoredObjs).Close();
             List<T> data = new List<T>();
 
-            //TODO load data from json file
             using(StreamReader file = File.OpenText(filePath_StoredObjs))
             {
                 using(JsonTextReader reader = new JsonTextReader(file))

@@ -23,15 +23,26 @@ namespace DatEx.Cropio.CUI
                 Console.WriteLine("Пользователь не найден");
                 return;
             }
-            List<CO_UserRoleAssignment> rolesAssignment = LoadDataFromJsonFile<CO_UserRoleAssignment>().Where(x => x.Id_User == user.Id).ToList();
-            List<CO_UserRole> userRoles = LoadDataFromJsonFile<CO_UserRole>().Intersect(rolesAssignment, (a, b) => a.Id == b.Id_UserRole).ToList();
-            List<CO_UserRolePermission> userRolePermissions = LoadDataFromJsonFile<CO_UserRolePermission>().Where(x => x.SubjectType == CE_UserRolePermissionSubjectType.FieldGroup && (x.AccessLevel != CE_AccessLevel.NoAccess))
+            List<CO_UserRoleAssignment> rolesAssignment = LoadDataFromJsonFile<CO_UserRoleAssignment>()
+                .Where(x => x.Id_User == user.Id).ToList();
+            List<CO_UserRole> userRoles = LoadDataFromJsonFile<CO_UserRole>()
+                .Intersect(rolesAssignment, (a, b) => a.Id == b.Id_UserRole).ToList();
+            List<CO_UserRolePermission> userRolePermissions = LoadDataFromJsonFile<CO_UserRolePermission>()
+                .Where(x => x.SubjectType == CE_UserRolePermissionSubjectType.FieldGroup && (x.AccessLevel != CE_AccessLevel.NoAccess))
                 .Intersect(userRoles, (a, b) => a.Id_UserRole == b.Id).ToList();
-            List<CO_FieldGroup> fieldGroups = LoadDataFromJsonFile<CO_FieldGroup>().Intersect(userRolePermissions, (a, b) => a.Id == b.Id_Subject).ToList();
-            List<CO_Field> fields = LoadDataFromJsonFile<CO_Field>().Intersect(fieldGroups, (a, b) => a.Id_FieldGroup == b.Id).ToList();
-            var history_InventoryItems = LoadDataFromJsonFile<CO_History_InventoryItem>()
+            List<CO_FieldGroup> fieldGroups = LoadDataFromJsonFile<CO_FieldGroup>()
+                .Intersect(userRolePermissions, (a, b) => a.Id == b.Id_Subject).ToList();
+            List<CO_Field> fields = LoadDataFromJsonFile<CO_Field>()
+                .Intersect(fieldGroups, (a, b) => a.Id_FieldGroup == b.Id).ToList();
+            var historyInventoryItems = LoadDataFromJsonFile<CO_History_InventoryItem>()
                 .Intersect(fields, (a, b) => a.Id_Historyable == b.Id && a.HistoryableType == CE_HistoryableType.Field)
-                .GroupBy(x => x.Id_Historyable);
+                .GroupBy(x => x.Id_Historyable)
+                .Select(g => g.OrderByDescending(i => i.RecordComesIntoEffectAt).First())
+                .Where(e => e.IsAvailable && !e.IsHidden)
+                .ToList();
+            List<CO_Field> excludedFields = fields
+                
+                .Except(historyInventoryItems, (a, b) => a.Id == b.Id_Historyable).ToList();
         }
 
         public static List<CO_User> GetUsersWithExternalId(CropioApi cropio)

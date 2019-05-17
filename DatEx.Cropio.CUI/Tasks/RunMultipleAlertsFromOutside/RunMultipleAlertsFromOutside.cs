@@ -15,14 +15,98 @@ namespace DatEx.Cropio.CUI
         public const String DirPath_LocalDataStorage = @"..\..\..\..\!Data\Cropio";
         public static void Main(CropioApi cropio)
         {
-            cropio.Update();            
-            SyncroniseData(cropio);
-            CO_User user = GetUsersWithExternalId(cropio).Where(x => x.Id == 25025).FirstOrDefault();
-            if(user == null)
+            RunAllertsTest(cropio);
+
+            var users = GetUsersWithExternalID().OrderBy(x => x.Status);
+            
+            foreach(var u in users)
             {
-                Console.WriteLine("Пользователь не найден");
-                return;
+                List<View_Field> userAllowedFields = GetUserRelatedFields(cropio, new Guid(u.Id_External))
+                    .OrderBy(x => x.FieldsGroupName).ThenBy(x => x.CropName).ThenBy(x => x.HistoryItemVariety).ThenBy(x => x.Name).ToList();
+                foreach(var usr in users)
+                {
+                    Boolean isCurrentUser = usr.Id == u.Id;
+                    var background = Console.BackgroundColor;
+                    if(isCurrentUser) Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine($" {(isCurrentUser ? "■" : " ")} | {usr.UserName, -50} | {usr.Position, -50} | {usr.Status}");
+                    Console.BackgroundColor = background;
+                }
+                Console.WriteLine("————————————————————————————————————————————————————————————————————————————————");
+                Console.WriteLine($"User available fields: {userAllowedFields.Count}");
+                Console.WriteLine("————————————————————————————————————————————————————————————————————————————————");
+                Console.ReadLine();
+                foreach(var f in userAllowedFields) Console.WriteLine($"{f}");
+                Console.ReadLine();
+                Console.Clear();
             }
+        }
+
+        public static List<CropioResponse> AllertsCreate(CropioApi cropio, List<Int32> fieldsIds, Int32 alertTypeId, String alertDescription, DateTime eventStartTime)
+        {
+            List<CropioResponse> cropioResponses = new List<CropioResponse>();
+            foreach(var fieldId in fieldsIds)
+            {
+                CO_Alert alert = new CO_Alert
+                {
+                    Id_AlertableObject = fieldId,
+                    Description = alertDescription,
+                    Id_AlertType = alertTypeId,
+                    EventStartTime = eventStartTime,
+                    Status = CE_StatusOfAllert.Open,
+                    AlertableObjectType = CE_AlertableObjectType.Field,
+                    CreatedAt = DateTime.Now,
+                };
+                cropioResponses.Add(cropio.CreateObject(alert).CropioResponse);
+            }
+            return cropioResponses;
+        }
+
+        public static List<CropioResponse> AllertsAssignResponsible(CropioApi cropio, List<Int32> alertsIds, Int32 responsibleId, String remark, DateTime timeStamp)
+        {
+            List<CropioResponse> cropioResponses = new List<CropioResponse>();
+            //TODO
+            return cropioResponses;
+        }
+
+        public static List<CropioResponse> AlertsAddRemark(CropioApi cropio, List<Int32> alertsIds, String remark, DateTime timeStamp)
+        {
+            List<CropioResponse> cropioResponses = new List<CropioResponse>();
+            //TODO
+            return cropioResponses;
+        }
+
+        public static List<CropioResponse> AlertsClose(CropioApi cropio, List<Int32> alertsIds, String remark, DateTime timeStamp)
+        {
+            List<CropioResponse> cropioResponses = new List<CropioResponse>();
+            //TODO
+            return cropioResponses;
+        }
+
+        public static void RunAllertsTest(CropioApi cropio)
+        {
+            List<Int32> fieldsIds = new List<Int32> { 198, 200, 202, 203, 205, 206, 321, 199, 201, 196, 197, 224, 204, 207, 322, 210 };
+            var result = AllertsCreate(cropio, fieldsIds, 6, "[#Test 5] This allert belong to allerts set #5 which was runned from 3rd party software", DateTime.Now);
+            foreach(var res in result)
+            {
+                Console.WriteLine(res.IsSuccess);
+            }
+        }
+
+        private static List<CO_User> GetUsersWithExternalID()
+        {
+            Guid userGuid = new Guid();
+            return LoadDataFromJsonFile<CO_User>().Where(x => !String.IsNullOrEmpty(x.Id_External) && Guid.TryParse(x.Id_External, out userGuid)).ToList();
+        }
+
+        private static List<View_Field> GetUserRelatedFields(CropioApi cropio, Guid userExternalId)
+        {
+            SyncroniseData(cropio);
+            var user = LoadDataFromJsonFile<CO_User>().FirstOrDefault(x => String.Equals(x.Id_External, userExternalId.ToString(), StringComparison.InvariantCultureIgnoreCase));
+            if(user == null) throw new InvalidOperationException(String.Format("Пользователь с внешним идентификатором \"{0}\" не найден", userExternalId));
+            if(user.Status == CE_UserStatus.NoAccess) return new List<View_Field>();
+            List<View_Field> userAllowedFields = GetActualFields(cropio);
+            if(user.Status != CE_UserStatus.User) return userAllowedFields;            
+            // return fields allowed for current user
             List<CO_UserRoleAssignment> rolesAssignment = LoadDataFromJsonFile<CO_UserRoleAssignment>()
                 .Where(x => x.Id_User == user.Id).ToList();
             List<CO_UserRole> userRoles = LoadDataFromJsonFile<CO_UserRole>()
@@ -30,44 +114,118 @@ namespace DatEx.Cropio.CUI
             List<CO_UserRolePermission> userRolePermissions = LoadDataFromJsonFile<CO_UserRolePermission>()
                 .Where(x => x.SubjectType == CE_UserRolePermissionSubjectType.FieldGroup && (x.AccessLevel != CE_AccessLevel.NoAccess))
                 .Intersect(userRoles, (a, b) => a.Id_UserRole == b.Id).ToList();
-            List<CO_FieldGroup> fieldGroups = LoadDataFromJsonFile<CO_FieldGroup>()
-                .Intersect(userRolePermissions, (a, b) => a.Id == b.Id_Subject).ToList();
-            List<CO_Field> fields = LoadDataFromJsonFile<CO_Field>()
-                .Intersect(fieldGroups, (a, b) => a.Id_FieldGroup == b.Id).ToList();
-            var historyInventoryItems = LoadDataFromJsonFile<CO_History_InventoryItem>()
-                .Intersect(fields, (a, b) => a.Id_Historyable == b.Id && a.HistoryableType == CE_HistoryableType.Field)
-                .GroupBy(x => x.Id_Historyable)
-                .Select(g => g.OrderByDescending(i => i.RecordComesIntoEffectAt).First())
-                .Where(e => e.IsAvailable && !e.IsHidden)
-                .ToList();
-            List<CO_Field> excludedFields = fields
-                
-                .Except(historyInventoryItems, (a, b) => a.Id == b.Id_Historyable).ToList();
+            userAllowedFields = userAllowedFields.Intersect(userRolePermissions, (a, b) => a.Id_FieldGroup == b.Id_Subject).ToList();
+            return userAllowedFields;
         }
 
-        public static List<CO_User> GetUsersWithExternalId(CropioApi cropio)
+        private static List<View_Field> GetActualFields(CropioApi cropio)
         {
-            List<CO_User> users = LoadDataFromJsonFile<CO_User>();
-            users = users.Where(x => !String.IsNullOrEmpty(x.Id_External)).ToList();
-            return users;
+            var historyInventoryItems = LoadDataFromJsonFile<CO_History_InventoryItem>()
+                .Where(x => x.HistoryableType == CE_HistoryableType.Field)
+                .GroupBy(x => x.Id_Historyable)
+                .Select(g => g.OrderByDescending(i => i.RecordComesIntoEffectAt).First())
+                .Where(x => x.IsAvailable && !x.IsHidden)
+                .ToList();
+            List<View_Field> fields = LoadDataFromJsonFile<CO_Field>()
+                .Intersect(historyInventoryItems, (a, b) => a.Id == b.Id_Historyable)
+                .Join(LoadDataFromJsonFile<CO_FieldGroup>(), o => o.Id_FieldGroup, i => i.Id, (o, i) => new
+                {   
+                    o.AdministrativeAreaName
+                    , o.CalculatedArea                 
+                    , o.Description
+                    , o.Id
+                    , o.Id_FieldGroup
+                    , o.LegalArea
+                    , o.Locality
+                    , o.Name
+                    , o.SubadministrativeAreaName
+                    , o.TillableArea
+                    , FieldsGroupDescription = i.Description
+                    , FieldsGroupFolderId = i.Id_GroupFolder
+                    , FieldsGroupName = i.Name
+                    , FieldsGroupSubadministrativeAreaName = i.SubadministrativeAreaName
+                })
+                .Join(LoadDataFromJsonFile<CO_History_Item>().Where(x => x.Year == DateTime.Now.Year), o => o.Id, i => i.Id_Field, (o, i) => new
+                {
+                    o.AdministrativeAreaName
+                    , o.CalculatedArea
+                    , o.Description
+                    , o.Id
+                    , o.Id_FieldGroup
+                    , o.LegalArea
+                    , o.Locality
+                    , o.Name
+                    , o.SubadministrativeAreaName
+                    , o.TillableArea
+                    , o.FieldsGroupDescription
+                    , o.FieldsGroupFolderId
+                    , o.FieldsGroupName
+                    , o.FieldsGroupSubadministrativeAreaName
+                    , i.Id_Crop
+                    , HistoryItemIsActive = i.IsActive
+                    , HistoryItemVariety = i.Variety
+                    , HistoryItemDescription = i.Description
+                })
+                .Join(LoadDataFromJsonFile<CO_Crop>(), o => o.Id_Crop, i => i.Id
+                    , (o, i) => new View_Field
+                    {
+                          AdministrativeAreaName                    = o.AdministrativeAreaName
+                          , CalculatedArea                          = o.CalculatedArea
+                          , Description                             = o.Description
+                          , Id                                      = o.Id
+                          , Id_FieldGroup                           = o.Id_FieldGroup
+                          , LegalArea                               = o.LegalArea
+                          , Locality                                = o.Locality
+                          , Name                                    = o.Name
+                          , SubadministrativeAreaName               = o.SubadministrativeAreaName
+                          , TillableArea                            = o.TillableArea
+                          , FieldsGroupDescription                  = o.FieldsGroupDescription
+                          , Id_FieldsGroupFolder                     = o.FieldsGroupFolderId
+                          , FieldsGroupName                         = o.FieldsGroupName
+                          , FieldsGroupSubadministrativeAreaName    = o.FieldsGroupSubadministrativeAreaName
+                          , Id_Crop                                 = o.Id_Crop
+                          , HistoryItemIsActive                     = o.HistoryItemIsActive
+                          , HistoryItemVariety                      = o.HistoryItemVariety
+                          , HistoryItemDescription                  = o.HistoryItemDescription
+                          , CropName                                = i.Name
+                          , CropShortName                           = i.ShortName
+                          , CropStandardName                        = i.StandardName
+                    })
+                .ToList();            
+            return fields;
         }
 
         public static void SyncroniseData(CropioApi cropio)
         {
-            Console.WriteLine("CO_User");
+            String opName = "Synchronization";
+            Int32 itemsCount = 11;
+            Int32 curItem = 0;
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_User>(cropio);
-            Console.WriteLine("CO_UserRoleAssignment");
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_UserRoleAssignment>(cropio);
-            Console.WriteLine("CO_UserRolePermission");
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_UserRole>(cropio);
-            Console.WriteLine("CO_UserRolePermission");
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_UserRolePermission>(cropio);
-            Console.WriteLine("CO_FieldGroup");
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_FieldGroup>(cropio);
-            Console.WriteLine("CO_Field");
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_Field>(cropio);
-            Console.WriteLine("CO_History_InventoryItem");
+            opName.ProgressBar(itemsCount, curItem++);
+            SyncDataTable<CO_History_Item>(cropio);
+            opName.ProgressBar(itemsCount, curItem++);
             SyncDataTable<CO_History_InventoryItem>(cropio);
+            opName.ProgressBar(itemsCount, curItem++);
+            //
+            SyncDataTable<CO_Alert>(cropio);
+            opName.ProgressBar(itemsCount, curItem++);
+            SyncDataTable<CO_AlertType>(cropio);
+            opName.ProgressBar(itemsCount, curItem++);
+            //
+            SyncDataTable<CO_Crop>(cropio);
+            opName.ProgressBar(itemsCount, curItem);
+            Console.WriteLine();
         }
 
         public static void SyncDataTable<T>(CropioApi cropio) where T : ICropioRegularObject
@@ -114,7 +272,12 @@ namespace DatEx.Cropio.CUI
                 serializer.Serialize(sw, data);
             }
         }
-    }
 
-    
+        public static void ProgressBar(this String operationName, Int32 maxVal, Int32 curVal)
+        {
+            Console.Clear();
+            if(curVal > maxVal) curVal = maxVal;
+            Console.WriteLine($"{operationName} {new String('█', curVal * 2)}{new String('-', (maxVal - curVal) * 2)} {curVal}/{maxVal}");
+        }
+    } 
 }

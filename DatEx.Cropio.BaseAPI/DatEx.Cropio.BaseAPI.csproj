@@ -72,6 +72,7 @@
     <Compile Include="CropioDataModel\Enums\CE_TypeOfImplement.cs" />
     <Compile Include="CropioDataModel\Enums\CE_TypeOfMachine.cs" />
     <Compile Include="CropioDataModel\Enums\CE_StandardNameOfWorkType.cs" />
+    <Compile Include="CropioDataModel\Enums\CE_UserStatus.cs" />
     <Compile Include="CropioDataModel\Interfaces\ICropioRegularObject.cs" />
     <Compile Include="CropioDataModel\Objects%28Aux%29\TimeInverval.cs" />
     <Compile Include="CropioDataModel\Objects\CO_AdditionalObject.cs" />

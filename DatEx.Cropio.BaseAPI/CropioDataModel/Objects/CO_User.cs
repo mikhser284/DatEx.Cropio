@@ -79,8 +79,9 @@ namespace DatEx.Cropio.BaseAPI
 
         /// <summary> status: 'no_access', 'user', 'admin' </summary>
         /// <remarks> In ELMA: — </remarks>
+        [JsonConverter(typeof(JsonConverter_UserStatus))]
         [JsonProperty("status")]
-        public String Status { get; set; }
+        public CE_UserStatus Status { get; set; }
 
         /// <summary> is dispetcher? (true/false) </summary>
         /// <remarks> In ELMA: Boolean IsDispatcher (Диспетчер) </remarks>

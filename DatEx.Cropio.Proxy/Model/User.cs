@@ -20,7 +20,7 @@ namespace DatEx.Cropio.Proxy.Model
         public String Language { get; set; }
         public String TimeZone { get; set; }
         public String YieldUnits { get; set; }
-        public String Status { get; set; }
+        public CE_UserStatus Status { get; set; }
         public Boolean IsDispatcher { get; set; }
         public Boolean IsDriver { get; set; }
         public String Rfid { get; set; }

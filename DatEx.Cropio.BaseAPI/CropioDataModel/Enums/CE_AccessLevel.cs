@@ -9,14 +9,14 @@ namespace DatEx.Cropio.BaseAPI
     /// <summary> Уровень доступа </summary>
     public enum CE_AccessLevel
     {
-        /// <summary> Полный доступ </summary>
-        FullAccess,
-        /// <summary> Менеджер </summary>
-        Manage,
         /// <summary> Без доступа </summary>
-        NoAccess,
+        NoAccess = 1,
         /// <summary> Только чтение </summary>
-        Read
+        Read = 2,
+        /// <summary> Менеджер </summary>
+        Manage = 3,
+        /// <summary> Полный доступ </summary>
+        FullAccess = 4,
     }    
 
     public class JsonConverter_AccessLevel : JsonConverter

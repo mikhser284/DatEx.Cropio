@@ -10,15 +10,15 @@ namespace DatEx.Cropio.BaseAPI
     public enum CE_UserStatus
     {
         /// <summary> Без доступа </summary>
-        NoAccess,
+        NoAccess = 1,
         /// <summary> Пользователь </summary>
-        User,
+        User = 2,
         /// <summary> Менеджер (только просмотр) </summary>
-        ManagerReadOnly,
+        ManagerReadOnly = 3,
         /// <summary> Менеджер </summary>
-        Manager,
+        Manager = 4,
         /// <summary> Администратор </summary>
-        Admin,
+        Admin = 5,
     }    
 
     public class JsonConverter_UserStatus : JsonConverter

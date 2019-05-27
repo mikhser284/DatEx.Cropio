@@ -10,11 +10,11 @@ namespace DatEx.Cropio.BaseAPI
     public enum CE_HistoryableType
     {
         /// <summary> Поле </summary>
-        Field,
+        Field = 1,
         /// <summary> Машина </summary>
-        Machine,
-        /// <summary> Implement </summary>
-        Implement
+        Machine = 2,
+        /// <summary> Оборудование </summary>
+        Implement = 3
     }    
 
     public class JsonConverter_HistoryableType : JsonConverter

@@ -20,6 +20,16 @@ namespace DatEx.Cropio.CUI
         {
             CropioApi cropio = GetCropioClient();
             RunMultipleAlertsFromOutside.Main(cropio);
+
+            //var resp = cropio.GetObjectsIds<CO_AlertType>();
+            //foreach(var ids in resp.Data.Paginate(100))
+            //{
+            //    var resp2 = cropio.GetObjects<CO_AlertType>(ids);
+            //    foreach(var obj in resp2.Data)
+            //    {
+            //        Console.WriteLine(obj.GetTextView(1));
+            //    }
+            //}
         }
 
         public static void Task03_CreatingMultipleAlertsOutsideCropio()

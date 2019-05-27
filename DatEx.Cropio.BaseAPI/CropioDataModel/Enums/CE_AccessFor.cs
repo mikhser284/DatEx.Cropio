@@ -10,11 +10,11 @@ namespace DatEx.Cropio.BaseAPI
     public enum CE_AccessFor
     {
         /// <summary> Поля </summary>
-        Fields,
+        Fields = 1,
         /// <summary> Машины </summary>
-        Machinery,
+        Machinery = 2,
         /// <summary> Земельные объекты </summary>
-        LandObjects
+        LandObjects = 3
     }    
 
     public class JsonConverter_AccessFor : JsonConverter

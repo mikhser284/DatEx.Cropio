@@ -6,13 +6,13 @@ using E = DatEx.Cropio.BaseAPI.CE_UserRolePermissionSubjectType;
 
 namespace DatEx.Cropio.BaseAPI
 {
-    /// <summary> Тип объекта </summary>
+    /// <summary> Тип субекта полномочий роли пользователя </summary>
     public enum CE_UserRolePermissionSubjectType
     {
-        /// <summary> Поля </summary>
-        FieldGroup,
-        /// <summary> Машины </summary>
-        MachineRegion,
+        /// <summary> Группа полей </summary>
+        FieldGroup = 1,
+        /// <summary> Машинный регион </summary>
+        MachineRegion = 2,
     }    
 
     public class JsonConverter_UserRolePermissionSubjectType : JsonConverter

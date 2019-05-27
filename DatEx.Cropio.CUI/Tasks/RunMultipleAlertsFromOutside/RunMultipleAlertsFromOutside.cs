@@ -15,9 +15,11 @@ namespace DatEx.Cropio.CUI
         public const String DirPath_LocalDataStorage = @"..\..\..\..\!Data\Cropio";
         public static void Main(CropioApi cropio)
         {
-            RunAllertsTest(cropio);
-
-            var users = GetUsersWithExternalID().OrderBy(x => x.Status);
+            //Test_AsignResponsibleToMultipleAllerts(cropio);            
+            //Test_AddRemarkToMultipleAllerts(cropio);
+            //Test_CloseMultipleAlerts(cropio);
+            
+            var users = GetUsersWithExternalID().OrderBy(x => x.UserName);
             
             foreach(var u in users)
             {
@@ -28,7 +30,7 @@ namespace DatEx.Cropio.CUI
                     Boolean isCurrentUser = usr.Id == u.Id;
                     var background = Console.BackgroundColor;
                     if(isCurrentUser) Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($" {(isCurrentUser ? "■" : " ")} | {usr.UserName, -50} | {usr.Position, -50} | {usr.Status}");
+                    Console.WriteLine($" {(isCurrentUser ? "■" : " ")} {usr.Id_External, 50} | {usr.UserName, -50} | {usr.Position, -50} | {usr.Status}");
                     Console.BackgroundColor = background;
                 }
                 Console.WriteLine("————————————————————————————————————————————————————————————————————————————————");
@@ -63,26 +65,50 @@ namespace DatEx.Cropio.CUI
 
         public static List<CropioResponse> AllertsAssignResponsible(CropioApi cropio, List<Int32> alertsIds, Int32 responsibleId, String remark, DateTime timeStamp)
         {
+            SyncDataTable<CO_Alert>(cropio);
+            var alerts = LoadDataFromJsonFile<CO_Alert>().Intersect(alertsIds, (a, b) => a.Id == b);
             List<CropioResponse> cropioResponses = new List<CropioResponse>();
-            //TODO
+            //
+            foreach(var alert in alerts)
+            {
+                alert.Id_ResponsiblePerson = responsibleId;
+                alert.Description += $"\n{timeStamp:yyyy.MM.dd HH:mm} \n{remark}";
+                cropioResponses.Add(cropio.UpdateObject(alert).CropioResponse);
+            }
             return cropioResponses;
         }
 
         public static List<CropioResponse> AlertsAddRemark(CropioApi cropio, List<Int32> alertsIds, String remark, DateTime timeStamp)
         {
+            SyncDataTable<CO_Alert>(cropio);
+            var alerts = LoadDataFromJsonFile<CO_Alert>().Intersect(alertsIds, (a, b) => a.Id == b);
             List<CropioResponse> cropioResponses = new List<CropioResponse>();
-            //TODO
+            //
+            foreach(var alert in alerts)
+            {
+                alert.Description += $"\n{timeStamp:yyyy.MM.dd HH:mm} \n{remark}";
+                cropioResponses.Add(cropio.UpdateObject(alert).CropioResponse);
+            }
             return cropioResponses;
         }
 
         public static List<CropioResponse> AlertsClose(CropioApi cropio, List<Int32> alertsIds, String remark, DateTime timeStamp)
         {
+            SyncDataTable<CO_Alert>(cropio);
+            var alerts = LoadDataFromJsonFile<CO_Alert>().Intersect(alertsIds, (a, b) => a.Id == b);
             List<CropioResponse> cropioResponses = new List<CropioResponse>();
-            //TODO
+            //
+            foreach(var alert in alerts)
+            {
+                alert.Description += $"\n{timeStamp:yyyy.MM.dd HH:mm} \n{remark}";
+                alert.EventStopTime = timeStamp;
+                alert.Status = CE_StatusOfAllert.Closed;
+                cropioResponses.Add(cropio.UpdateObject(alert).CropioResponse);
+            }
             return cropioResponses;
         }
 
-        public static void RunAllertsTest(CropioApi cropio)
+        public static void Test_CreateMultipleAlerts(CropioApi cropio)
         {
             List<Int32> fieldsIds = new List<Int32> { 198, 200, 202, 203, 205, 206, 321, 199, 201, 196, 197, 224, 204, 207, 322, 210 };
             var result = AllertsCreate(cropio, fieldsIds, 6, "[#Test 5] This allert belong to allerts set #5 which was runned from 3rd party software", DateTime.Now);
@@ -90,6 +116,24 @@ namespace DatEx.Cropio.CUI
             {
                 Console.WriteLine(res.IsSuccess);
             }
+        }
+
+        public static void Test_AsignResponsibleToMultipleAllerts(CropioApi cropio)
+        {
+            List<Int32> alertsIds = new List<int> { 831, 830, 829, 828, 827, 826, 825, 824, 823, 822, 821, 820, 819, 818, 817, 816 };
+            AllertsAssignResponsible(cropio, alertsIds, 9911, "[#Test] Назначен ответственный, назначены корректирующие действия", DateTime.Now);
+        }
+
+        public static void Test_AddRemarkToMultipleAllerts(CropioApi cropio)
+        {
+            List<Int32> alertsIds = new List<int> { 831, 830, 829, 828, 827, 826, 825, 824, 823, 822, 821, 820, 819, 818, 817, 816 };
+            AlertsAddRemark(cropio, alertsIds, "[#Test] Выполнены корректирующие действия", DateTime.Now);
+        }
+
+        public static void Test_CloseMultipleAlerts(CropioApi cropio)
+        {
+            List<Int32> alertsIds = new List<int> { 831, 830, 829, 828, 827, 826, 825, 824, 823, 822, 821, 820, 819, 818, 817, 816 };
+            AlertsClose(cropio, alertsIds, "[#Test] Тревога закрыта", DateTime.Now);
         }
 
         private static List<CO_User> GetUsersWithExternalID()

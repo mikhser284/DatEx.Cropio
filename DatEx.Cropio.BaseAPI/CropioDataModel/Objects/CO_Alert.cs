@@ -7,7 +7,21 @@ namespace DatEx.Cropio.BaseAPI
     [JsonObject(Title = "data")]
     public class CO_Alert : ICropioDocumentableObject
     {
-        //Not tested
+        /// <summary> Группа тревог № </summary>
+        [JsonProperty("x_custom_alert_00_group_number")]
+        public Int32 Custom00GroupNumber{ get; set; }
+
+        /// <summary> 01. Автор </summary>
+        [JsonProperty("x_custom_alert_01_author")]
+        public String Custom01Author{ get; set; }
+
+        /// <summary> 02. Ответственный </summary>
+        [JsonProperty("x_custom_alert_02_responsible")]
+        public String Custom02Responsible{ get; set; }
+
+        /// <summary> 03. Исполнитель </summary>
+        [JsonProperty("x_custom_alert_03_executor")]
+        public String Custom03Executor{ get; set; }
 
         /// <summary> Cropio ID of Field </summary>
         /// <remarks> In ELMA: Int32 Id_InCropio (Id в Cropio)</remarks>
@@ -111,7 +125,12 @@ namespace DatEx.Cropio.BaseAPI
                 .Append(i).Append("Id_CreatedByUser:     ").Append(Id_CreatedByUser)
                 .Append(i).Append("EventStopTime:        ").Append(EventStopTime)
                 .Append(i).Append("AlertClosedAt:        ").Append(AlertClosedAt)
-                .Append(i).Append("Id_AutomaticAlert:    ").Append(Id_AutomaticAlert);
+                .Append(i).Append("Id_AutomaticAlert:    ").Append(Id_AutomaticAlert)
+                .Append(i).Append("CustomGroupNumber:    ").Append(Custom00GroupNumber)
+                .Append(i).Append("CustomAuthor:         ").Append(Custom01Author)
+                .Append(i).Append("CustomResponsible:    ").Append(Custom02Responsible)
+                .Append(i).Append("CustomExecutor:       ").Append(Custom03Executor)
+                ;
             return sb.ToString();
         }
 

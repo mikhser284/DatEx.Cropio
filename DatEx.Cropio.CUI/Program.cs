@@ -19,12 +19,14 @@ namespace DatEx.Cropio.CUI
         static void Main(String[] args)
         {
             CropioApi cropio = GetCropioClient();
-            RunMultipleAlertsFromOutside.Main(cropio);
+            CO_Alert alert = cropio.GetObject<CO_Alert>(834).Data;
+            Console.WriteLine(alert.GetTextView(1));
+            //RunMultipleAlertsFromOutside.Main(cropio);
 
-            //var resp = cropio.GetObjectsIds<CO_AlertType>();
+            //var resp = cropio.GetObjectsIds<CO_Alert>();
             //foreach(var ids in resp.Data.Paginate(100))
             //{
-            //    var resp2 = cropio.GetObjects<CO_AlertType>(ids);
+            //    var resp2 = cropio.GetObjects<CO_Alert>(ids);
             //    foreach(var obj in resp2.Data)
             //    {
             //        Console.WriteLine(obj.GetTextView(1));
